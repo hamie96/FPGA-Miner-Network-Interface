@@ -33,6 +33,7 @@ block1 = Block(block['hash'],block['version'],block['previousblockhash'],block['
 
 ## Contributors
 | Name | Module |
+| ----- | ----- |
 | Greggor | Mining Hardware |
 | Oliver | Hardware Interface |
 | Hamilton | Networking Interface|
