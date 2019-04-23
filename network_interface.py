@@ -49,13 +49,13 @@ class User:
         self.private_key = private_key
 
     def createPrivateKey(self):
-        self_private_key = bitcoin.random_key()
+        self.private_key = bitcoin.random_key()
 
     def createPublicKey(self, private_key):
-        self_public_key = bitcoin.privtopub(private_key)
+        self.public_key = bitcoin.privtopub(private_key)
 
     def createBitcoinAddress(self, public_key):
-        self_bitcoin_addr = bitcoin.pubtoaddr(public_key)
+        self.bitcoin_addr = bitcoin.pubtoaddr(public_key)
 
     def returnUser(self):
         return ("User:" + self.name + "\nPrivate Key:" + str(self.private_key))
