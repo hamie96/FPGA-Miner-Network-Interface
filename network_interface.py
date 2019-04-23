@@ -12,52 +12,70 @@ import bitcoin
 from json_with_dates import loads
 
 class Block:
-    def __init__(self, block_hash, size, height, version, merkle_root, time, nonce, bits, difficulty, hash_prev_block):
+    def __init__(self, block_hash, version, prev_block_hash, merkle_root, time, bits, nonce):
         self.block_hash = block_hash
-        self.size = size
-        self.height = height
         self.version = version
-        self.hash_prev_block = hash_prev_block
+        self.prev_block_hash = prev_block_hash
         self.merkle_root = merkle_root
-        self.difficulty = difficulty
         self.time = time
         self.nonce = 0
         self.bits = bits
+    
+    def getBlockHash(self):
+        return self.block_hash
+    
+    def getVersion(self):
+        return self.version
 
+    def getPrevBlockHash(self):
+        return self.prev_block_hash
 
+    def getMerkleRoot(self):
+        return self.merkle_root
+
+    def getTime(self):
+        return self.time
+
+    def getBits(self):
+        return self.bits
+    
     def setNonce(self, nonce):
         self.nonce = nonce
 
-    def addTransactions(self, transaction):
-        self.transactions.append(transaction)
+    def printBlock(self):
+        return [self.block_hash, self.version, self.prev_block_hash, self.merkle_root, self.time, self.bits, self.nonce]
 
-    def __str__(self):
-        return '-'.join([self.hash_merkle_block, str(self.nonce)])
+class User:
+    
+    def __init__(self, name):
+        self.name = name
+        self.private_key = None
 
-def createPrivateKey():
-    private_key = bitcoin.random_key()
-    return private_key
+    def setPrivateKey(self, private_key):
+        self.private_key = private_key
 
-def createPublicKey():
-    return bitcoin.privtopub(createPrivateKey())
+    def createPrivateKey(self):
+        self_private_key = bitcoin.random_key()
 
-def createBitcoinAddress():
-    return bitcoin.pubtoaddr(createPublicKey())
+    def createPublicKey(self, private_key):
+        self_public_key = bitcoin.privtopub(private_key)
+
+    def createBitcoinAddress(self, public_key):
+        self_bitcoin_addr = bitcoin.pubtoaddr(public_key)
+
+    def returnUser(self):
+        return ("User:" + self.name + "\nPrivate Key:" + str(self.private_key))
 
 
-
-
-print(createPrivateKey())
-print(createPublicKey())
-print(createBitcoinAddress())
+user1 = User('Charles')
+print(user1.returnUser())
 
 block_request = requests.get('https://blockexplorer.com/api/block/0000000000000000079c58e8b5bce4217f7515a74b170049398ed9b8428beb4a')
 
 block = loads(block_request.text)
-print(block['hash'])
 
-block1 = Block(block['hash'],block['size'],block['height'],block['version'],block['merkleroot'],block['time'], block['nonce'],block['bits'],block['difficulty'],block['previousblockhash'])
+block1 = Block(block['hash'],block['version'],block['previousblockhash'],block['merkleroot'],block['time'],block['bits'], block['nonce'])
 
-print(block1)
+print(block1.printBlock())
 ##print(block[0], block[1], block[2], block[3], block[4],block[5], block[6], block[7], block[8], block[9], block[10], block[13])
 print('')
