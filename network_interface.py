@@ -1,12 +1,6 @@
 import time
 import json
-import hashlib
-import struct
 import sys
-import base64
-import blockchain
-import binascii
-import ecdsa
 import requests
 import bitcoin
 from json_with_dates import loads
@@ -67,15 +61,4 @@ class User:
         return ("User:" + self.name + "\nPrivate Key:" + str(self.private_key))
 
 
-user1 = User('Charles')
-print(user1.returnUser())
 
-block_request = requests.get('https://blockexplorer.com/api/block/0000000000000000079c58e8b5bce4217f7515a74b170049398ed9b8428beb4a')
-
-block = loads(block_request.text)
-
-block1 = Block(block['hash'],block['version'],block['previousblockhash'],block['merkleroot'],block['time'],block['bits'], block['nonce'])
-
-print(block1.printBlock())
-##print(block[0], block[1], block[2], block[3], block[4],block[5], block[6], block[7], block[8], block[9], block[10], block[13])
-print('')
